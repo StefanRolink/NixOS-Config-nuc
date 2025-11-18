@@ -136,7 +136,6 @@
     pcloud
     alacritty
     ghostty
-    git
     eza
     bat
     onlyoffice-desktopeditors
@@ -162,17 +161,45 @@
     pcsx2
     scrcpy
     ticktick
+    # syncthing
+    syncthingtray-qt6
   ];
+  
+  programs.git = {
+    enable = true;
+    config.credential = {
+      helper = "store";
+    };
+  };
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
    programs.mtr.enable = true;
-   programs.gnupg.agent = {
-     enable = true;
-     enableSSHSupport = true;
-   };
+   # programs.gnupg.agent = {
+   #   enable = true;
+   #   enableSSHSupport = true;
+   # };
+   programs.ssh.startAgent = true;
 
   # List services that you want to enable:
+  services.syncthing = {
+    enable = true;
+    dataDir = "/home/nuc/Sync/";
+    openDefaultPorts = true;
+    configDir = "/home/nuc/.config/syncthing";
+    user = "nuc";
+    # group = "users";
+    guiAddress = "127.0.0.1:8384";
+    # declarative = { SNIPPED };
+  };
+
 
   # Enable the OpenSSH daemon.
    services.openssh.enable = true;

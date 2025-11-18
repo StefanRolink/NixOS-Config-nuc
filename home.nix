@@ -48,6 +48,17 @@
       plugins = [ "sudo" ];
       theme = "agnoster";
     };
+
+    initContent = ''
+	create_nix_env() {
+	  if [ -z "$1" ]; then
+	    echo "Usage: create_nix_env <language>"
+	    return 1 
+	  fi
+	  LANGUAGE="$1"
+	  nix flake init --template "https://flakehub.com/f/the-nix-way/dev-templates/*#$LANGUAGE"
+	}
+    '';
   };
 
   programs.nvchad = {
@@ -67,7 +78,7 @@
     -- local lspconfig require("lspconfig")
     require("nvchad.configs.lspconfig").defaults()
 
-    local servers = { "html", "cssls", "nixd", "alejandra"}
+    local servers = { "html", "cssls", "nixd", "alejandra", "texlab"}
     vim.lsp.enable(servers)
   '';
 
